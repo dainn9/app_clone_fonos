@@ -1,6 +1,8 @@
 
 import 'package:app_clone_fonos/features/home/view/main_screen.dart';
-import 'package:app_clone_fonos/features/profile/profile_screen.dart';
+import 'package:app_clone_fonos/features/profile/view/profile_detail.dart';
+import 'package:app_clone_fonos/features/profile/view/profile_screen.dart';
+import 'package:app_clone_fonos/features/profile/view/profile_setting.dart';
 import 'package:app_clone_fonos/features/signin_signup/views/sign_in_email_link.dart';
 import 'package:fluro/fluro.dart';
 
@@ -112,6 +114,18 @@ class FonosRouter {
   //   },
   // );
 
+  static final Handler _profileSetting = Handler(
+    handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
+      return ProfileSettingScreen();
+    },
+  );
+
+  static final Handler _profileDetail = Handler(
+    handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
+      return ProfileDetail();
+    },
+  );
+
   static void setupRouter() {
     router.define('/', handler: _welcomeHandler, transitionType: TransitionType.inFromRight);
     router.define('/onboarding', handler: _onboardingHandler, transitionType: TransitionType.inFromRight);
@@ -129,5 +143,8 @@ class FonosRouter {
     // router.define('/homelistening', handler: _homelistening, transitionType: TransitionType.inFromRight);
     // router.define('/phonesignin', handler: _phonesignin, transitionType: TransitionType.inFromRight);
     // router.define('/verificationcode', handler: _verificationcode, transitionType: TransitionType.inFromRight);
+
+    router.define('/profile_setting', handler: _profileSetting, transitionType: TransitionType.inFromRight);
+    router.define('/profile_detail', handler: _profileDetail, transitionType: TransitionType.inFromRight);
   }
 }
