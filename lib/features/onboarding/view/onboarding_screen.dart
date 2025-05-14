@@ -64,7 +64,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     backgroundColor: AppColors.peachCoral,
                     textColor: Colors.white,
                     onPressed: () async {
-                      Navigator.pushNamed(context, '/onboarding_step');
+                      // Navigator.pushNamed(context, '/onboarding_step');
+                      Navigator.pushNamed(context, '/profile');
+                    //
                     },
                   ),
                   const SizedBox(height: 10),

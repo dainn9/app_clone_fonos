@@ -1,5 +1,6 @@
 
 import 'package:app_clone_fonos/features/home/view/main_screen.dart';
+import 'package:app_clone_fonos/features/profile/profile_screen.dart';
 import 'package:app_clone_fonos/features/signin_signup/views/sign_in_email_link.dart';
 import 'package:fluro/fluro.dart';
 
@@ -68,6 +69,12 @@ class FonosRouter {
     },
   );
 
+  static final Handler _profileScreen = Handler(
+    handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
+      return ProfileScreen();
+    },
+  );
+
   //
   // static final Handler _homedetail = Handler(
   //   handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
@@ -113,6 +120,7 @@ class FonosRouter {
     router.define('/sign_in', handler: _signinHandler, transitionType: TransitionType.inFromBottom);
     router.define('/main', handler: _mainScreen, transitionType: TransitionType.inFromBottom);
     router.define('/email_link', handler: _signInEmailLink, transitionType: TransitionType.inFromBottom);
+    router.define('/profile', handler: _profileScreen, transitionType: TransitionType.inFromBottom);
 
     // router.define('/home', handler: _homeCategory, transitionType: TransitionType.inFromRight);
     router.define('/home_screen', handler: _homeScreen, transitionType: TransitionType.inFromRight);
