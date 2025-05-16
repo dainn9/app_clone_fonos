@@ -1,3 +1,4 @@
+import 'package:app_clone_fonos/core/design_systems/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class ActionButton extends StatelessWidget {
@@ -6,7 +7,7 @@ class ActionButton extends StatelessWidget {
   final Color? color;
   final VoidCallback? onPressed;
 
-  const ActionButton({
+  ActionButton({
     super.key,
     required this.text,
     required this.icon,
@@ -35,9 +36,9 @@ class ActionButton extends StatelessWidget {
           // Otherwise use the base color
           return baseColor;
         }),
-        foregroundColor: WidgetStateProperty.all<Color>(Colors.white),
+        foregroundColor: WidgetStateProperty.all<Color>(AppColors.primaryRank),
         padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
-          const EdgeInsets.symmetric(vertical: 16),
+          const EdgeInsets.symmetric(vertical: 12),
         ),
         shape: WidgetStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
@@ -65,11 +66,11 @@ class ActionButton extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon),
+          Icon(icon, size: 20),
           const SizedBox(width: 8),
           Text(
             text,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
         ],
       ),

@@ -1,4 +1,6 @@
 import 'package:app_clone_fonos/features/home/component/custom_app_bar.dart';
+import 'package:app_clone_fonos/features/home/view/home_author.dart';
+import 'package:app_clone_fonos/features/home/view/home_detail.dart';
 import 'package:app_clone_fonos/features/home/view/home_search.dart';
 import 'package:app_clone_fonos/features/signin_signup/views/sign_in_screen.dart';
 import 'package:provider/provider.dart';
@@ -32,9 +34,9 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
     _screens = [
       HomeScreen(),
-      Placeholder(),
+      HomeDetail(),
       HomeSearch(),
-      Placeholder(),
+      HomeAuthor(),
       Placeholder(),
     ];
   }

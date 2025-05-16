@@ -31,7 +31,7 @@ class HomeDetail extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Color(0xFF4A6EA9), Color(0xFF121212)],
+            colors: [Color(0xFF4A6EA9), Color(0xFF324763)],
             stops: [0.0, 0.3],
           ),
         ),
@@ -62,7 +62,7 @@ class HomeDetail extends StatelessWidget {
                 Center(
                   child: Column(
                     children: [
-                      const BookCover(
+                      BookCover(
                         title: "TRÍ TUỆ\nDO THÁI",
                         author: "ERAN KATZ",
                         subtitle: "JEROME BECOMES A GENIUS",
@@ -122,40 +122,39 @@ class HomeDetail extends StatelessWidget {
                 const SizedBox(height: 24),
 
                 // Action buttons
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    children: [
-                      IconButton(
-                        icon: const Icon(
-                          Icons.favorite_border,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {},
-                      ),
-                      const SizedBox(width: 8),
-                      const Expanded(
-                        child: ActionButton(
-                          text: "Bắt đầu nghe",
-                          icon: Icons.play_arrow,
-                          color: Color(0xFFF87D63),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                //   child: Row(
+                //     children: [
+                //       IconButton(
+                //         icon: const Icon(
+                //           Icons.favorite_border,
+                //           color: Colors.white,
+                //         ),
+                //         onPressed: () {},
+                //       ),
+                //       const SizedBox(width: 8),
+                //       const Expanded(
+                //         child: ActionButton(
+                //           text: "Bắt đầu nghe",
+                //           icon: Icons.play_arrow,
+                //           color: Color(0xFFF87D63),
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 const SizedBox(height: 24),
 
                 // Related books section
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SectionHeader(
                         title: "Thường Được Mua Cùng Với",
-                        onSeeAll: () {},
+                        onPress: () {},
                       ),
                       SizedBox(
                         height: 200,
@@ -218,7 +217,7 @@ class HomeDetail extends StatelessWidget {
                       const SizedBox(height: 16),
 
                       // Book info
-                      const BookInfoRow(
+                      BookInfoRow(
                         duration: "11 giờ 32 phút",
                         publisher: "Alphabooks",
                       ),

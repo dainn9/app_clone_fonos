@@ -21,8 +21,10 @@ void run() async {
   FonosRouter.setupRouter();
   // Khởi chạy ứng dụng
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => AuthProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+      ],
       child: App(),
     ),
   );

@@ -14,25 +14,28 @@ class BookInfoRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        const Icon(Icons.access_time, color: Colors.white54, size: 16),
-        const SizedBox(width: 8),
-        Text(
-          duration,
-          style: const TextStyle(fontSize: 14, color: Colors.white54),
-        ),
-        const SizedBox(width: 16),
-        const Icon(Icons.home, color: Colors.white54, size: 16),
-        const SizedBox(width: 8),
-        GestureDetector(
-          onTap: onPublisherTap,
-          child: Text(
-            publisher,
-            style: const TextStyle(fontSize: 14, color: Color(0xFFF87D63)),
+    return Container(
+      padding: EdgeInsets.all(12),
+      child: Row(
+        children: [
+          const Icon(Icons.access_time, color: Colors.blueGrey, size: 16),
+          const SizedBox(width: 8),
+          Text(
+            duration,
+            style: const TextStyle(fontSize: 14, color: Colors.blueGrey),
           ),
-        ),
-      ],
+          const SizedBox(width: 16),
+          const Icon(Icons.home_outlined, color: Colors.blueGrey, size: 22),
+          const SizedBox(width: 8),
+          GestureDetector(
+            onTap: onPublisherTap,
+            child: Text(
+              publisher,
+              style: const TextStyle(fontSize: 14, color: Color(0xFFF87D63), fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

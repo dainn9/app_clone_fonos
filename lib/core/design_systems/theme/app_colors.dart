@@ -7,6 +7,7 @@ class AppColors {
   static const primaryWhite = Color(0xFFFFFFFF);
   static const primaryBlack = Color(0xFF000000);
   static const primaryTransparent = Color(0x00000000);
+  static const primaryRank = Color(0xFF2B3A5C);
 
   //NEUTRAL
   static const neutral50 = Color(0xFFFFFFFF);

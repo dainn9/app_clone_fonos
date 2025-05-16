@@ -1,5 +1,3 @@
-// custom_app_bar.dart
-import 'package:firebase_auth/firebase_auth.dart' show User;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../signin_signup/providers/auth_provider.dart';

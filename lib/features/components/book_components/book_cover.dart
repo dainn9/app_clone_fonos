@@ -3,71 +3,80 @@ import 'package:flutter/material.dart';
 class BookCover extends StatelessWidget {
   final String title;
   final String author;
-  final String subtitle;
-  final String? imageUrl;
+  final String? subtitle;
+  final String imageUrl;
 
-  const BookCover({
+const  BookCover({
     super.key,
     required this.title,
     required this.author,
     this.subtitle = '',
-    this.imageUrl,
+    required this.imageUrl,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 220,
-      width: 150,
+      height: 280,
+      width: 160,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2),
-            blurRadius: 10,
-            offset: const Offset(0, 5),
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 8,
+            offset: Offset(0, 4),
           ),
         ],
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(8),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            // Ảnh bìa ở trên
+              Container(
+                height: 160,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage(imageUrl),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+
+            // Nội dung ở dưới
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(8.0),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    author.toUpperCase(),
-                    style: const TextStyle(fontSize: 10, color: Colors.grey),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    title.toUpperCase(),
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 20,
+                    title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 14,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
                     ),
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    subtitle,
-                    style: const TextStyle(fontSize: 8, color: Colors.grey),
+                    author,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey,
+                    ),
                   ),
-                  const SizedBox(height: 20),
-                  if (imageUrl != null)
-                    Container(
-                      height: 80,
-                      width: 80,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        image: DecorationImage(
-                          image: NetworkImage(imageUrl!),
-                          fit: BoxFit.contain,
-                        ),
+                  if (subtitle != null && subtitle!.isNotEmpty)
+                    Padding(
+                      padding: EdgeInsets.only(top: 4.0),
+                      child: Text(
+                        subtitle!,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(fontSize: 10, color: Colors.grey),
                       ),
                     ),
                 ],

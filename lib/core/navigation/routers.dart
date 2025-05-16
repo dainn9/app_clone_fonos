@@ -4,6 +4,7 @@ import 'package:app_clone_fonos/features/profile/profile_screen.dart';
 import 'package:app_clone_fonos/features/signin_signup/views/sign_in_email_link.dart';
 import 'package:fluro/fluro.dart';
 
+import '../../features/home/view/home_detail.dart';
 import '../../features/home/view/home_view.dart';
 import '../../features/onboarding/view/onboarding_screen.dart';
 import '../../features/onboarding/view/onboarding_screen_step.dart';

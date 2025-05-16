@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class SectionHeader extends StatelessWidget {
   final String title;
   final String? subtitle;
-  final VoidCallback? onSeeAll;
+  final VoidCallback? onPress;
 
   // Icon trước title
   final IconData? leadingIcon;
@@ -19,7 +19,7 @@ class SectionHeader extends StatelessWidget {
     super.key,
     required this.title,
     this.subtitle,
-    this.onSeeAll,
+    this.onPress,
 
     // Icon trước title
     this.leadingIcon,
@@ -51,11 +51,7 @@ class SectionHeader extends StatelessWidget {
                       color: leadingIconBackgroundColor,
                       borderRadius: BorderRadius.circular(4),
                     ),
-                    child: Icon(
-                        leadingIcon,
-                        color: leadingIconColor,
-                        size: 16
-                    ),
+                    child: Icon(leadingIcon, color: leadingIconColor, size: 16),
                   ),
                   const SizedBox(width: 8),
                 ],
@@ -70,35 +66,35 @@ class SectionHeader extends StatelessWidget {
                       Row(
                         children: [
                           Expanded(
-                            child: Text(
-                              title.toUpperCase(),
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 0.5,
-                                color: Color(0xFF2B3A5C),
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                            child: Row(
+                              children: [
+                                Text(
+                                  title.toUpperCase(),
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: 0.5,
+                                    color: Color(0xFF2B3A5C),
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                const SizedBox(width: 10,),
+                                if (trailingTitleIcon != null) ...[
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: trailingTitleIconBackgroundColor,
+                                    ),
+                                    child: Icon(
+                                      trailingTitleIcon,
+                                      color: trailingTitleIconColor,
+                                      size: 20,
+                                    ),
+                                  ),
+                                ],
+                              ],
                             ),
                           ),
-
-                          // Icon sau title (nếu có)
-                          if (trailingTitleIcon != null) ...[
-                            const SizedBox(width: 8),
-                            Container(
-                              padding: const EdgeInsets.all(4),
-                              decoration: BoxDecoration(
-                                color: trailingTitleIconBackgroundColor,
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                              child: Icon(
-                                  trailingTitleIcon,
-                                  color: trailingTitleIconColor,
-                                  size: 14
-                              ),
-                            ),
-                          ],
                         ],
                       ),
 
@@ -126,15 +122,15 @@ class SectionHeader extends StatelessWidget {
           const SizedBox(width: 8),
 
           // Nút "Xem tất cả" (nếu có)
-          if (onSeeAll != null)
+          if (onPress != null)
             GestureDetector(
-              onTap: onSeeAll,
+              onTap: onPress,
               child: Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 12,
                   vertical: 6,
                 ),
-                child:  Icon(
+                child: Icon(
                   Icons.arrow_forward_ios,
                   size: 15,
                   color: Color(0xFF2B3A5C),

@@ -1,12 +1,14 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthProvider extends ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
-
   User? _user;
   bool _isLoading = false;
   String? _email;
@@ -161,20 +163,33 @@ class AuthProvider extends ChangeNotifier {
         return false;
       }
 
+
       // Lấy thông tin xác thực từ request
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
 
+      final idToken = googleAuth.idToken;
+      if (idToken != null) {
+        print('TOKENNNNNNNNNNN : ${idToken}');
+        // Gửi lên API backend
+        await postGoogleLogin(idToken);
+      }
+
       // Tạo credential cho Firebase
       final OAuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
+        idToken: idToken,
       );
 
       // Đăng nhập vào Firebase với credential
       final UserCredential userCredential = await _auth.signInWithCredential(
         credential,
       );
+
+      // Lấy idToken Firebase (JWT)
+      // final idToken = await _user?.getIdToken();
+
+
       _user = userCredential.user;
 
       _isLoading = false;
@@ -189,6 +204,66 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
+  Future<bool> postGoogleLogin(String idToken) async {
+    _isLoading = true;
+    notifyListeners();
+
+    try {
+      final url = Uri.parse('http://10.0.2.2:5022/api/Auth/google-login');
+
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'idToken': idToken,
+        }),
+      ).timeout(
+        const Duration(seconds: 15),
+        onTimeout: () => http.Response('Timeout', 408),
+      );
+
+      if (response.statusCode == 200) {
+        print('Login success: ${response.body}');
+
+        // Xử lý dữ liệu trả về từ backend (nếu có)
+        try {
+          final responseData = jsonDecode(response.body);
+          // Lưu token hoặc thông tin xác thực khác
+          if (responseData['token'] != null) {
+            await _saveAuthToken(responseData['token']);
+          }
+        } catch (e) {
+          print('Lỗi xử lý dữ liệu: $e');
+        }
+
+        _isLoading = false;
+        notifyListeners();
+        return true;
+      } else {
+        print('Login failed: ${response.statusCode} ${response.body}');
+        _errorMessage = 'Đăng nhập thất bại (${response.statusCode})';
+        _isLoading = false;
+        notifyListeners();
+        return false;
+      }
+    } catch (e) {
+      print('Lỗi kết nối: $e');
+      _errorMessage = 'Lỗi kết nối: $e';
+      _isLoading = false;
+      notifyListeners();
+      return false;
+    }
+  }
+
+// Thêm hàm lưu token
+  Future<void> _saveAuthToken(String token) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('auth_token', token);
+  }
+
+
   Future<void> signOut() async {
     await _auth.signOut();
     await _googleSignIn.signOut();
@@ -200,6 +275,13 @@ class AuthProvider extends ChangeNotifier {
     final user = _auth.currentUser;
     if (user != null) {
       return user;
+    }
+    return null;
+  }
+
+  Future<String?> getIdToken() async {
+    if (_user != null) {
+      return await _user!.getIdToken();
     }
     return null;
   }
