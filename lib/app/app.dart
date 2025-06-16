@@ -19,7 +19,7 @@ class App extends StatelessWidget {
         return MaterialApp(
           navigatorKey: _navigatorKey,
           debugShowCheckedModeBanner: false,
-          title: Appconstants.APP_TITLE,
+          title: AppConstants.APP_TITLE,
           theme: BMaterialTheme.light(),
           themeMode: ThemeMode.light,
           onGenerateRoute: FonosRouter.router.generator,

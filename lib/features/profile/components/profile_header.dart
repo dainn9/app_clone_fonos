@@ -20,7 +20,7 @@ class ProfileHeader extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 30,
-                    backgroundImage: AssetImage(userData['avatar']),
+                    backgroundImage: NetworkImage(userData['avatar']),
                   ),
                   Positioned(
                     bottom: 0,
@@ -74,34 +74,6 @@ class ProfileHeader extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
-          if (userData['isPremium'])
-            IntrinsicWidth(
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                decoration: BoxDecoration(
-                  color: Colors.deepOrange,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Row(
-                  children: [
-                    const Text(
-                      'Premium',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(width: 4),
-                    const Icon(
-                      Icons.arrow_forward_ios,
-                      color: Colors.white,
-                      size: 12,
-                    ),
-                  ],
-                ),
-              ),
-            ),
         ],
       ),
     );

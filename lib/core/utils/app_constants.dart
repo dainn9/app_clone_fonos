@@ -1,4 +1,4 @@
-class Appconstants {
+class AppConstants {
   static const APP_TITLE = 'Fonus';
   //Status
   static const SUCCESS = 'success';
@@ -17,4 +17,7 @@ class Appconstants {
   //Danh sách tên bảng
   static const SPORT_MATCH_TABLE = 'SportMatch';
   static const VIDEO_HISTORY_TABLE = 'VideoHistory';
+
+  //Base Url
+  static const BASE_URL = 'http://10.0.2.2:5022/api';
 }

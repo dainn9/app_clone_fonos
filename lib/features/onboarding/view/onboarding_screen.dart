@@ -1,10 +1,9 @@
-import 'package:app_clone_fonos/features/home/view/main_screen.dart';
+import 'package:app_clone_fonos/features/auth/viewmodels/auth_viewmodel.dart';
+import 'package:app_clone_fonos/features/main_layout/views/main_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/components/custom_button/custom_button.dart';
 import '../../../core/design_systems/design_system_export.dart';
-import '../../home/view/home_view.dart';
-import '../../signin_signup/providers/auth_provider.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -16,7 +15,7 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
-    final authProvider = Provider.of<AuthProvider>(context);
+    final authProvider = Provider.of<AuthViewmodel>(context);
 
     // Nếu đã đăng nhập, chuyển đến màn hình chính
     if (authProvider.isLoggedIn) {

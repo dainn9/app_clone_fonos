@@ -1,4 +1,6 @@
+import 'package:app_clone_fonos/features/auth/viewmodels/auth_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../core/design_systems/design_system_export.dart';
 import '../components/profile_avatar.dart';
 import '../components/profile_info_item.dart';
@@ -9,13 +11,14 @@ class ProfileDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthViewmodel>(context);
     // Fake data
     final userData = {
-      'name': 'Phạm Thủy Tiên',
+      'name': authProvider.user!.displayName,
       'username': 'khsmdh60',
       'loginMethod': 'Số điện thoại',
       'phone': '+84336107518',
-      'avatar': 'assets/images/avatar.jpg', // Thay bằng đường dẫn thực tế
+      'avatar': authProvider.user!.photoURL, // Thay bằng đường dẫn thực tế
       'socialAccounts': [
         {
           'platform': 'Facebook',

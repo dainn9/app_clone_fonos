@@ -1,22 +1,5 @@
 import 'dart:async';
-
-import 'package:provider/provider.dart';
-
 import '../../../core/design_systems/design_system_export.dart';
-import '../../home/view/home_view.dart';
-import '../../signin_signup/providers/auth_provider.dart';
-
-// class WelcomeProvider extends StatelessWidget {
-//   const WelcomeProvider({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return ChangeNotifierProvider<WelcomeBloc>(
-//       create: (context) => WelcomeBloc(),
-//       child: WelcomePage(),
-//     );
-//   }
-// }
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});

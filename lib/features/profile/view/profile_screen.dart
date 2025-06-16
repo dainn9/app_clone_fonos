@@ -1,4 +1,6 @@
+import 'package:app_clone_fonos/features/auth/viewmodels/auth_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../core/design_systems/design_system_export.dart';
 import '../components/profile_header.dart';
 import '../components/listening_statistics.dart';
@@ -11,13 +13,14 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthViewmodel>(context);
     // Fake data
     final userData = {
-      'name': 'Đinh Quốc Bảo',
+      'name': authProvider.user!.displayName,
       'username': '@khsmdh60',
       'joinDate': 'Tham gia từ tháng 07, 2023',
-      'isPremium': true,
-      'avatar': 'assets/images/avatar.jpg', // Thay bằng đường dẫn thực tế
+      'isPremium': false,
+      'avatar': authProvider.user!.photoURL, // Thay bằng đường dẫn thực tế
       'level': 27,
       'progress': 38,
       'listeningHours': 361,
@@ -90,10 +93,10 @@ class ProfileScreen extends StatelessWidget {
       backgroundColor: const Color(0xFFF5F5F7),
       appBar: AppBar(
         backgroundColor: const Color(0xFF2B3A5C),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.pop(context),
-        ),
+        // leading: IconButton(
+        //   icon: const Icon(Icons.arrow_back, color: Colors.white),
+        //   onPressed: () => Navigator.pop(context),
+        // ),
         actions: [
           IconButton(
             icon: const Icon(Icons.more_horiz, color: Colors.white),

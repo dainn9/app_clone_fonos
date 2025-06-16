@@ -1,4 +1,6 @@
+import 'package:app_clone_fonos/features/auth/viewmodels/auth_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../core/design_systems/design_system_export.dart';
 import '../components/profile_setting_header.dart';
 import '../components/setting_item.dart';
@@ -8,13 +10,21 @@ class ProfileSettingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Fake data
+    final authViewModel = Provider.of<AuthViewmodel>(context);
+    final user = authViewModel.user;
+
+    if (user == null) {
+      Future.microtask(() {
+        Navigator.pushNamedAndRemoveUntil(context, '/sign_in', (_) => false);
+      });
+      return const SizedBox.shrink(); // Tránh build lỗi
+    }
+
     final userData = {
-      'name': 'Phạm Thủy Tiên',
-      'avatar': 'assets/images/avatar.jpg', // Thay bằng đường dẫn thực tế
+      'name': user.displayName ?? 'Người dùng',
+      'avatar': user.photoURL ?? '',
     };
 
-    // Danh sách các cài đặt
     final settingItems = [
       {
         'icon': Icons.download_outlined,
@@ -47,7 +57,6 @@ class ProfileSettingScreen extends StatelessWidget {
         'route': '/privacy-policy',
       },
     ];
-
     return Scaffold(
       backgroundColor: const Color(0xFF3A4A6D),
       appBar: AppBar(
@@ -90,9 +99,9 @@ class ProfileSettingScreen extends StatelessWidget {
                   )).toList(),
                   const Spacer(),
                   TextButton(
-                    onPressed: () {
+                    onPressed: () async {
                       // Xử lý sự kiện đăng xuất
-                      print("Đăng xuất");
+                      await authViewModel.signOut(context);
                     },
                     child: const Text(
                       'Đăng xuất',

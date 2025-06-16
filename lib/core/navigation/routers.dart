@@ -1,18 +1,17 @@
 
-import 'package:app_clone_fonos/features/home/view/main_screen.dart';
+import 'package:app_clone_fonos/features/main_layout/views/main_screen.dart';
 import 'package:app_clone_fonos/features/profile/view/profile_detail.dart';
 import 'package:app_clone_fonos/features/profile/view/profile_screen.dart';
 import 'package:app_clone_fonos/features/profile/view/profile_setting.dart';
-import 'package:app_clone_fonos/features/signin_signup/views/sign_in_email_link.dart';
 import 'package:fluro/fluro.dart';
 
-import '../../features/home/view/home_detail.dart';
-import '../../features/home/view/home_view.dart';
+import '../../features/auth/views/sign_in_email_link.dart';
+import '../../features/auth/views/sign_in_screen.dart';
+import '../../features/explore/views/explore_screen.dart';
 import '../../features/onboarding/view/onboarding_screen.dart';
 import '../../features/onboarding/view/onboarding_screen_step.dart';
 import '../../features/onboarding/view/welcome_screen.dart';
-import '../../features/signin_signup/views/register_screen.dart';
-import '../../features/signin_signup/views/sign_in_screen.dart';
+import '../../features/auth/views/register_screen.dart';
 import '../design_systems/design_system_export.dart';
 
 class FonosRouter {
@@ -54,9 +53,9 @@ class FonosRouter {
   //   },
   // );
   //
-  static final Handler _homeScreen = Handler(
+  static final Handler _exploreScreen = Handler(
     handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
-      return HomeScreen();
+      return ExploreScreen();
     },
   );
 
@@ -138,7 +137,7 @@ class FonosRouter {
     router.define('/profile', handler: _profileScreen, transitionType: TransitionType.inFromBottom);
 
     // router.define('/home', handler: _homeCategory, transitionType: TransitionType.inFromRight);
-    router.define('/home_screen', handler: _homeScreen, transitionType: TransitionType.inFromRight);
+    router.define('/explore_screen', handler: _exploreScreen, transitionType: TransitionType.inFromRight);
     // router.define('/homedetail', handler: _homedetail, transitionType: TransitionType.inFromRight);
     // router.define('/homeauthor', handler: _homeauthor, transitionType: TransitionType.inFromRight);
     // router.define('/homelistening', handler: _homelistening, transitionType: TransitionType.inFromRight);

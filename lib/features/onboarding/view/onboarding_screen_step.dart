@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/design_systems/theme/app_colors.dart';
-import '../../../core/services/onboarding_service.dart';
+import '../../../services/onboarding_service.dart';
 import '../component/selectable_topic.dart';
 
 class OnboardingScreenStep extends StatefulWidget {
