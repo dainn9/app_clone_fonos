@@ -7,10 +7,12 @@ import 'package:provider/provider.dart';
 import '../../../core/widgets/book_list.dart';
 import '../../../core/widgets/section_header.dart';
 import '../../../services/book_service.dart';
+import '../../all_books/views/all_books_screen.dart';
+import '../../audio_player/views/audio_player_screen.dart';
 import '../../components/book_components/action_button.dart';
 import '../../components/book_components/book_info_row.dart';
 import '../../../core/widgets/expandable_text.dart';
-import '../../home/view/audio_player_screen.dart';
+import '../../explore/viewmodels/explore_viewmodel.dart';
 import '../widgets/chapter_display_list.dart';
 import '../widgets/circle_icon_button_book.dart';
 import '../widgets/favorite_button.dart';
@@ -173,12 +175,7 @@ class _BookDetailContentState extends State<_BookDetailContent> {
                                   builder:
                                       (context) => AudioPlayerScreen(
                                         audiobookId: book.audiobookId,
-                                        bookTitle: book.title,
                                         coverImageUrl: book.coverImageUrl,
-                                        authorName:
-                                            // provider.books.isNotEmpty
-                                            //     ? provider.books.map((a) => a.numberOfReviews).join(', ')
-                                            'Không có tác giả',
                                       ),
                                 ),
                               );
@@ -230,6 +227,7 @@ class _BookDetailContentState extends State<_BookDetailContent> {
                                 ),
                                 ChapterDisplayListWidget(
                                   audiobookId: book.audiobookId,
+                                  coverImageUrl: book.coverImageUrl,
                                 ),
 
                                 Padding(
@@ -237,7 +235,22 @@ class _BookDetailContentState extends State<_BookDetailContent> {
                                   child: SectionHeader(
                                     title: book.publisherName,
                                     subtitle: 'Cùng nhà xuất bản',
-                                    onPress: () {},
+                                    onPress: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder:
+                                              (context) => AllBooksScreen(
+                                                viewModel: ExploreViewModel(
+                                                  context.read<BookService>(),
+                                                )..fetchSamePublisherBooks(
+                                                  book.publisherId,
+                                                ),
+                                                title: book.publisherName,
+                                              ),
+                                        ),
+                                      );
+                                    },
                                   ),
                                 ),
                                 SizedBox(
@@ -249,6 +262,8 @@ class _BookDetailContentState extends State<_BookDetailContent> {
                                       book.publisherId,
                                       limit: 10,
                                     ),
+                                    publisherId: book.publisherId,
+                                    title: book.publisherName,
                                   ),
                                 ),
                                 // rating

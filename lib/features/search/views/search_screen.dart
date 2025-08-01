@@ -1,54 +1,119 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
 
-class HomeSearch extends StatefulWidget {
-  const HomeSearch({super.key});
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../viewmodels/search_viewmodel.dart';
+import '../../../core/widgets/book_item.dart';
+
+class SearchScreen extends StatefulWidget {
+  const SearchScreen({super.key});
 
   @override
-  State<HomeSearch> createState() => _HomeSearchState();
+  State<SearchScreen> createState() => _SearchScreenState();
 }
 
-class _HomeSearchState extends State<HomeSearch> {
+class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _searchController = TextEditingController();
   final Color primaryColor = const Color(0xFFFF5722); // Màu chính của ứng dụng
+  Timer? _debounce;
 
   @override
   void dispose() {
+    _debounce?.cancel();
     _searchController.dispose();
     super.dispose();
   }
 
+  void _onSearchChanged(String query) {
+    final vm = context.read<SearchViewModel>();
+
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      final trimmed = query.trim();
+      if (trimmed.isNotEmpty) {
+        vm.fetchSuggestions(trimmed);
+      } else {
+        vm.clearSuggestions(); // 👈 gọi hàm mới để xóa kết quả
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          height: double.infinity, // Chiều cao nền phía dưới
-          color: Color(0xFF2B3A5C), // Màu nền chính
-        ),
-          Positioned(
-            top: 10, // Nằm chồng lên phần nền dưới
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white, // Màu của layer trên
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(27),
-                  topRight: Radius.circular(27),
+    final vm = context.watch<SearchViewModel>();
+    final isSearching = _searchController.text.trim().isNotEmpty;
+
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        backgroundColor: const Color(0xFF2B3A5C),
+        body: SafeArea(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: TextField(
+                  controller: _searchController,
+                  onChanged: _onSearchChanged,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
+                    prefixIcon: const Icon(Icons.search),
+                    contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                    hintText: 'Nhập từ khoá...',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
                 ),
               ),
-              child: Column(
-                children: [
-                  // Header
-                  const SizedBox(height: 20),
-                  // Categories
-                  Expanded(
+              if (vm.isLoading)
+                const Padding(
+                  padding: EdgeInsets.only(top: 20),
+                  child: CircularProgressIndicator(),
+                )
+              else if (isSearching)
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.all(10),
+                    color: Colors.white,
+                    child: ListView.builder(
+                      itemCount: vm.books.length,
+                      itemBuilder: (context, index) {
+                        final book = vm.books[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 12), // khoảng cách giữa các item
+                          child: WorkItem(
+                            id: book.bookId,
+                            title: book.title,
+                            imageUrl: book.coverImageUrl,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                )
+              else
+              // 👉 chỉ hiển thị phần danh mục khi không tìm kiếm
+                Expanded(
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(27),
+                        topRight: Radius.circular(27),
+                      ),
+                    ),
                     child: SingleChildScrollView(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Column(
                         children: [
-                          // Top Categories
+                          const SizedBox(height: 20),
                           Row(
                             children: [
                               Expanded(
@@ -80,8 +145,6 @@ class _HomeSearchState extends State<HomeSearch> {
                             ],
                           ),
                           const SizedBox(height: 12),
-
-                          // Rankings
                           Row(
                             children: [
                               Expanded(
@@ -104,67 +167,35 @@ class _HomeSearchState extends State<HomeSearch> {
                             ],
                           ),
                           const SizedBox(height: 16),
-
-                          // Small Categories Grid
                           GridView.count(
                             crossAxisCount: 4,
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             mainAxisSpacing: 16,
                             children: [
-                              _buildSmallCategory(
-                                'Ebook',
-                                Icons.menu_book,
-                                Colors.orange,
-                              ),
-                              _buildSmallCategory(
-                                'Tóm tắt',
-                                Icons.description,
-                                Colors.green,
-                              ),
-                              _buildSmallCategory(
-                                'Thiền',
-                                Icons.spa,
-                                Colors.teal,
-                              ),
-                              _buildSmallCategory(
-                                'Truyện ngủ',
-                                Icons.nightlight,
-                                Colors.indigo,
-                              ),
-                              _buildSmallCategory(
-                                'Nhạc',
-                                Icons.music_note,
-                                Colors.pink,
-                              ),
-                              _buildSmallCategory(
-                                'Thiếu nhi',
-                                Icons.child_care,
-                                Colors.brown,
-                              ),
-                              _buildSmallCategory(
-                                'Podcast',
-                                Icons.mic,
-                                Colors.orange,
-                              ),
-                              // Empty space for the last item
-                              const SizedBox(),
+                              _buildSmallCategory('Ebook', Icons.menu_book, Colors.orange),
+                              _buildSmallCategory('Tóm tắt', Icons.description, Colors.green),
+                              _buildSmallCategory('Thiền', Icons.spa, Colors.teal),
+                              _buildSmallCategory('Truyện ngủ', Icons.nightlight, Colors.indigo),
+                              _buildSmallCategory('Nhạc', Icons.music_note, Colors.pink),
+                              _buildSmallCategory('Thiếu nhi', Icons.child_care, Colors.brown),
+                              _buildSmallCategory('Podcast', Icons.mic, Colors.orange),
+                              const SizedBox(), // slot trống
                             ],
                           ),
-
-                          // Thêm padding ở dưới cùng để tránh bị che bởi thanh điều hướng
                           const SizedBox(height: 16),
                         ],
                       ),
                     ),
                   ),
-                ],
-              ),
-            ),
+                ),
+            ],
           ),
-      ],
+        ),
+      ),
     );
   }
+
 
   Widget _buildCategoryCard({
     required String title,

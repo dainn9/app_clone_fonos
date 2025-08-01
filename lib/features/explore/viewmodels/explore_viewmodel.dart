@@ -82,4 +82,25 @@ class ExploreViewModel extends ChangeNotifier implements BaseBookListViewModel {
     _isLoading = false;
     notifyListeners();
   }
+
+  Future<void> fetchSamePublisherBooks(String publisherId, {int? limit}) async {
+    _isLoading = true;
+    notifyListeners();
+
+    try {
+      final response = await _service.getSamePublisherBooks(
+        publisherId,
+        limit: limit,
+      );
+
+      final List<dynamic> data = response.data;
+      _books = data.map((json) => BookModel.fromJson(json)).toList();
+      errorMessage = null;
+    } catch (e) {
+      errorMessage = 'Lỗi khi tải (same-publisher book)';
+    }
+
+    _isLoading = false;
+    notifyListeners();
+  }
 }

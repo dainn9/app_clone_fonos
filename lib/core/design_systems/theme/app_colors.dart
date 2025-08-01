@@ -128,7 +128,7 @@ class AppColors {
 
   static const _playerColor = [Color(0xFFF23232), Color(0xFF325CF2), Color(0xFF9F32F2), Color(0xFF32B8F2)];
   static const playerColor = [Color(0xFFF23232), Color(0xFF325CF2), Color(0xFF9F32F2), Color(0xFF32B8F2)];
-  static const playerBackgroundDefault = Color(0xFFE7E9E7);
+  static const playerBackgroundDefault = Color(0xFF2A4D80);
 
-  static const HistoryMatchWhite = Color(0xFFEDEDED);
+  static const historyMatchWhite = Color(0xFFEDEDED);
 }

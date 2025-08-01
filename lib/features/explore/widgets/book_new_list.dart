@@ -4,7 +4,7 @@ import '../../../core/design_systems/design_system_export.dart';
 import '../../../services/book_service.dart';
 import '../../all_books/views/all_books_screen.dart';
 import '../../book_detail/views/book_detail_screen.dart';
-import '../../../core/widgets/book_item.dart';
+import '../../../core/widgets/book_cover_image.dart';
 import '../viewmodels/explore_viewmodel.dart';
 
 class BookNewList extends StatelessWidget {
@@ -48,7 +48,7 @@ class _BookListScreenContentState extends State<_BookNewListContent> {
                   child: GestureDetector(
                     onTap: () {
                       // TODO: Xử lý khi nhấn vào nút xem tất cả
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => AllBooksScreen(title: 'ád',)));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => AllBooksScreen(title: 'Mới xuất bản',viewModel: ExploreViewModel(context.read<BookService>())..fetchTopRatingBooks())));
                     },
                     child: Container(
                       width: 60,

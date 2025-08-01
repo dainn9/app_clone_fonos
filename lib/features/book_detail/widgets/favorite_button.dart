@@ -22,7 +22,21 @@ class _FavoriteButtonState extends State<FavoriteButton> {
         setState(() {
           isFavorited = !isFavorited;
         });
+        _addFavorite(context, isFavorited);
       },
+    );
+  }
+
+  void _addFavorite(BuildContext context, bool add) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          add
+              ? 'Đã thêm vào danh sách yêu thích'
+              : 'Đã xóa khỏi danh sách yêu thích',
+        ),
+        duration: Duration(seconds: 1),
+      ),
     );
   }
 }

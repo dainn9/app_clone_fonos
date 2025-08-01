@@ -4,13 +4,18 @@ import '../core/api/api_client.dart';
 class BookService {
   final Dio _dio = ApiClient.dio;
 
-  Map<String, dynamic>? _buildQueryParams({int? limit}) {
-    return (limit != null) ? {'limit': limit.toString()} : null;
+  Map<String, dynamic>? _buildQueryParams({int? limit, String? query}) {
+    final Map<String, dynamic> params = {};
+
+    if (limit != null) params['limit'] = limit.toString();
+    if (query != null && query.isNotEmpty) params['searching'] = query;
+
+    return params.isEmpty ? null : params;
   }
 
-  Future<Response> getBooks({int? limit}) => _dio.get(
+  Future<Response> getBooks({int? limit, String? query}) => _dio.get(
     '/Book/mobile-option',
-    queryParameters: _buildQueryParams(limit: limit),
+    queryParameters: _buildQueryParams(limit: limit, query: query),
   );
 
   Future<Response> getTopRatingBooks({int? limit}) => _dio.get(

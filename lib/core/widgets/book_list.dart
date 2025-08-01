@@ -7,16 +7,20 @@ import '../../services/book_service.dart';
 import '../design_systems/design_system_export.dart';
 import '../../features/book_detail/views/book_detail_screen.dart';
 import '../viewmodels/base_book_list_viewmodel.dart';
-import 'book_item.dart';
+import 'book_cover_image.dart';
 
 class BookListWidget<T extends ChangeNotifier> extends StatelessWidget {
   final T viewModel;
   final bool showIndex;
+  final String? title;
+  final String? publisherId;
 
   const BookListWidget({
     super.key,
+    this.showIndex = false,
+    this.title,
     required this.viewModel,
-    this.showIndex = false, // Mặc định là false nếu không truyền
+    this.publisherId,
   });
 
 
@@ -24,14 +28,23 @@ class BookListWidget<T extends ChangeNotifier> extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<T>.value(
       value: viewModel,
-      child: _BookListContent<T>(showIndex: showIndex),
+      child: _BookListContent<T>(showIndex: showIndex, title: title,publisherId: publisherId),
+
     );
   }
 }
 
 class _BookListContent<T extends ChangeNotifier> extends StatelessWidget {
   final bool showIndex;
-  const _BookListContent({super.key, required this.showIndex});
+  final String? title;
+  final String? publisherId;
+
+  const _BookListContent({
+    super.key,
+    required this.showIndex,
+    this.title,
+    this.publisherId
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +69,15 @@ class _BookListContent<T extends ChangeNotifier> extends StatelessWidget {
               if (index == bookProvider.books.length) {
                 return GestureDetector(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => AllBooksScreen(title: 'ád',)));
+                    if (showIndex) {
+                      Navigator.push(context, MaterialPageRoute(builder: (
+                          context) => AllBooksScreen(title: title ?? '', viewModel: ExploreViewModel(context.read<BookService>())..fetchTopRatingBooks())));
+                    }
+                    if (publisherId != null)
+                      {
+                        Navigator.push(context, MaterialPageRoute(builder: (
+                            context) => AllBooksScreen(title: title ?? '', viewModel: ExploreViewModel(context.read<BookService>())..fetchSamePublisherBooks(publisherId ?? '')),));
+                      }
                   },
                   child: Container(
                     width: 40, // hoặc size mong muốn

@@ -1,7 +1,7 @@
 import 'package:app_clone_fonos/features/auth/viewmodels/auth_viewmodel.dart';
 import 'package:app_clone_fonos/core/widgets/custom_app_bar.dart';
 import 'package:app_clone_fonos/features/library/views/home_detail.dart';
-import 'package:app_clone_fonos/features/search/views/home_search.dart';
+import 'package:app_clone_fonos/features/search/views/search_screen.dart';
 import 'package:app_clone_fonos/features/profile/view/profile_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -18,12 +18,7 @@ class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
   // Danh sách các tiêu đề tương ứng với các tab
-  final List<String> _titles = [
-    'Khám phá',
-    'Tìm kiếm',
-    'Thư viện',
-    'Cá nhân',
-  ];
+  final List<String> _titles = ['Khám phá', 'Tìm kiếm', 'Thư viện', 'Cá nhân'];
 
   // Danh sách các màn hình tương ứng với các tab
   late final List<Widget> _screens;
@@ -31,12 +26,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
-    _screens = [
-      ExploreScreen(),
-      HomeSearch(),
-      HomeDetail(),
-      ProfileScreen(),
-    ];
+    _screens = [ExploreScreen(), SearchScreen(), HomeDetail(), ProfileScreen()];
   }
 
   // Xử lý khi người dùng nhấn vào tab
@@ -57,7 +47,6 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       appBar: CustomAppBar(
         title: _titles[_selectedIndex],
-        showSearchBar: _selectedIndex == 1,
         showIcon: _selectedIndex == 0,
       ),
       body: _screens[_selectedIndex],
@@ -85,16 +74,15 @@ class _MainScreenState extends State<MainScreen> {
               icon: Icon(Icons.explore),
               label: 'Khám phá',
             ),
-            // BottomNavigationBarItem(
-            //   icon: Icon(Icons.video_library),
-            //   label: 'PodCourse',
-            // ),
             BottomNavigationBarItem(
               icon: Icon(Icons.search),
               label: 'Tìm kiếm',
             ),
             BottomNavigationBarItem(icon: Icon(Icons.book), label: 'Thư viện'),
-            BottomNavigationBarItem(icon: Icon(Icons.person_outlined), label: 'Cá nhân'),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person_outlined),
+              label: 'Cá nhân',
+            ),
           ],
         ),
       ),

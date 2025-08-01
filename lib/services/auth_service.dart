@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import '../core/api/api_client.dart';
 import 'local_storage_service.dart';
 
-
 class AuthService {
   final LocalStorage _localStorage;
   final Dio _dio;

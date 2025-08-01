@@ -5,23 +5,19 @@ import 'package:provider/provider.dart';
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final bool showBackButton;
-  final bool showSearchBar;
   final bool showUpgradeButton;
   final bool showAvatar;
   final bool showTitle;
   final bool showIcon;
-  final VoidCallback? onSearchTap;
 
   const CustomAppBar({
     Key? key,
     required this.title,
     this.showBackButton = false,
-    this.showSearchBar = false,
     this.showUpgradeButton = false,
     this.showAvatar = false,
     this.showTitle = true,
     this.showIcon = false,
-    this.onSearchTap,
   }) : super(key: key);
 
   @override
@@ -118,7 +114,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                         // Navigator.of(context).push(
                         //   MaterialPageRoute(builder: (_) => ProfileScreen()),
                         // );
-
                       },
                       child: CircleAvatar(
                         radius: 18,
@@ -134,30 +129,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
 
           // Thanh tìm kiếm (nếu cần)
-          if (showSearchBar)
-            Padding(
-              padding: const EdgeInsets.only(top: 16.0),
-              child: GestureDetector(
-                onTap: onSearchTap,
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(Icons.search, color: Colors.grey),
-                      SizedBox(width: 8),
-                      Text(
-                        'Tìm tên sách, tác giả, mentor...',
-                        style: TextStyle(color: Colors.grey),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
         ],
       ),
     );

@@ -2,6 +2,7 @@ import 'package:app_clone_fonos/features/author_detail/viewmodels/author_viewmod
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../core/design_systems/theme/app_colors.dart';
 import '../../../services/book_author_service.dart';
 import '../../book_detail/views/book_detail_screen.dart';
 import '../models/book_with_author_model.dart';
@@ -36,17 +37,17 @@ class _AuthorDetailContentState extends State<_AuthorDetailContent> {
   @override
   Widget build(BuildContext context) {
     return Consumer<AuthorViewModel>(
-      builder: (context, provider, child) {
-        if (provider.isLoading) {
+      builder: (context, authorViewModel, child) {
+        if (authorViewModel.isLoading) {
           return Scaffold(
-            backgroundColor: const Color(0xFF2A4D80),
+            backgroundColor: AppColors.playerBackgroundDefault,
             body: Center(child: CircularProgressIndicator(color: Colors.white)),
           );
         }
-        final authors = provider.bookListBySameAuthor;
+        final authors = authorViewModel.bookListBySameAuthor;
         if (authors == null) {
           return Scaffold(
-            backgroundColor: const Color(0xFF2A4D80),
+            backgroundColor: AppColors.playerBackgroundDefault,
             body: Center(
               child: Text(
                 'Không tìm thấy thông tin tác giả',
@@ -56,9 +57,9 @@ class _AuthorDetailContentState extends State<_AuthorDetailContent> {
           );
         }
 
-        final booksByAuthor = provider.bookListBySameAuthor ?? [];
+        final booksByAuthor = authorViewModel.bookListBySameAuthor ?? [];
         return Scaffold(
-          backgroundColor: const Color(0xFF2A4D80),
+          backgroundColor: AppColors.playerBackgroundDefault,
           body: SafeArea(
             child: Column(
               children: [
@@ -107,24 +108,23 @@ class _AuthorDetailContentState extends State<_AuthorDetailContent> {
       child: Column(
         children: [
           // Nút quay lại
-          Row(
-            children: [
-              Container(
-                width: 30,
-                height: 30,
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
-                  shape: BoxShape.circle,
-                ),
-                child: IconButton(
-                  icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
-                  onPressed: () => Navigator.pop(context),
-                  padding: const EdgeInsets.all(0),
-                  constraints: const BoxConstraints(),
-                  iconSize: 15,
-                ),
+          Align(
+            alignment: Alignment.topLeft,
+            child: Container(
+              width: 30,
+              height: 30,
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.2),
+                shape: BoxShape.circle,
               ),
-            ],
+              child: IconButton(
+                icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
+                onPressed: () => Navigator.pop(context),
+                padding: const EdgeInsets.all(0),
+                constraints: const BoxConstraints(),
+                iconSize: 15,
+              ),
+            ),
           ),
 
           const SizedBox(height: 16),
@@ -181,7 +181,7 @@ class _AuthorDetailContentState extends State<_AuthorDetailContent> {
           const Text(
             'Giới thiệu',
             style: TextStyle(
-              color: Color(0xFF2A4D80),
+              color: AppColors.playerBackgroundDefault,
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
@@ -215,7 +215,7 @@ class _AuthorDetailContentState extends State<_AuthorDetailContent> {
               Text(
                 'Tác phẩm',
                 style: TextStyle(
-                  color: Color(0xFF2A4D80),
+                  color: AppColors.playerBackgroundDefault,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
@@ -224,7 +224,7 @@ class _AuthorDetailContentState extends State<_AuthorDetailContent> {
               Text(
                 '(${books.length})',
                 style: TextStyle(
-                  color: Color(0xFF2A4D80),
+                  color: AppColors.playerBackgroundDefault,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),

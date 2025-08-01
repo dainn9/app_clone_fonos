@@ -5,7 +5,7 @@ import '../core/navigation/routers.dart';
 import '../core/utils/app_constants.dart';
 
 class App extends StatelessWidget {
-  App({super.key}); // Xóa từ khóa 'const'
+  App({super.key});
 
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
 

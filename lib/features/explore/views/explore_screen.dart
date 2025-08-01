@@ -3,13 +3,15 @@ import 'package:app_clone_fonos/features/explore/widgets/book_new_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../../../core/models/category/category.dart';
+import 'package:provider/provider.dart';
 import '../../../core/widgets/section_header.dart';
 import '../../../core/widgets/book_list.dart';
 import '../../../services/book_service.dart';
+import '../../../services/category_service.dart';
 import '../../all_books/views/all_books_screen.dart';
+import '../../category_list/viewmodels/category_viewmodel.dart';
 import '../viewmodels/explore_viewmodel.dart';
-import '../widgets/categories_list.dart';
+import '../../category_list/views/categories_list.dart';
 
 class ExploreScreen extends StatelessWidget {
   const ExploreScreen({super.key});
@@ -32,14 +34,14 @@ class ExploreScreen extends StatelessWidget {
                   trailingTitleIcon: FontAwesomeIcons.trophy,
                   trailingTitleIconColor: Colors.amber,
                   onPress: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => AllBooksScreen(title: 'ád',)));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => AllBooksScreen(title: 'Top Sách Nói Thịnh Hành',viewModel: ExploreViewModel(context.read<BookService>())..fetchTopRatingBooks())));
                   },
                 ),
               ),
               SizedBox(
                 height: 250,
                 child: BookListWidget<ExploreViewModel>(
-                  viewModel: ExploreViewModel(context.read<BookService>())..fetchTopRatingBooks(limit: 10), showIndex: true,
+                  viewModel: ExploreViewModel(context.read<BookService>())..fetchTopRatingBooks(limit: 10), showIndex: true, title: 'Top Sách Nói Thịnh Hành'
                 ),
               ),
 
@@ -48,7 +50,7 @@ class ExploreScreen extends StatelessWidget {
                 child: SectionHeader(
                   title: 'Mới xuất bản',
                   onPress: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => AllBooksScreen(title: 'ád',)));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => AllBooksScreen(title: 'Mới xuất bản',viewModel: ExploreViewModel(context.read<BookService>())..fetchNewBooks())));
                   },
                 ),
               ),
@@ -65,7 +67,10 @@ class ExploreScreen extends StatelessWidget {
                 ),
               ),
 
-              CategoriesList(categories: categories)
+              ChangeNotifierProvider(
+                create: (_) => CategoryViewModel(CategoryService())..fetchCategories(),
+                child: CategoriesList(),
+              )
 
               // const SizedBox(height: 20),
             ],
